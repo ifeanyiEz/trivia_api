@@ -19,9 +19,9 @@ class TriviaTestCase(unittest.TestCase):
         setup_db(self.app, self.database_path)
 
         self.new_question = {
-            'question': 'Why did the pidgeon cross the road?',
-            'answer': 'To get to the other side',
-            'category': '5',
+            'question': 'Can I add a quesion without an answer?',
+            'answer': 'No, you cannot',
+            'category': '1',
             'difficulty': '2'
         }
 
@@ -40,7 +40,7 @@ class TriviaTestCase(unittest.TestCase):
     TODO
     Write at least one test for each test for successful operation and for expected errors.
     """
-    def test_add_question(self):
+    def test_add_complete_question(self):
         '''Testing to see if questions are added as expected'''
         resp = self.client().post("/questions", json = self.new_question)
         data = json.loads(resp.data)
@@ -49,6 +49,15 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['created'])
         self.assertTrue((data['total_questions']))
+    
+    def test_add_incomplete_question(self):
+        '''Testing to see if incomplete questions are rejected as expected'''
+        resp = self.client().post("/questions", json=self.new_question)
+        data = json.loads(resp.data)
+
+        self.assertEqual(resp.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertTrue(data['message'])
 
     def test_list_questions(self):
         '''Testing to see if questions are listed as expected'''
@@ -73,13 +82,13 @@ class TriviaTestCase(unittest.TestCase):
 
     def test_delete_question(self):
         '''Testing to ensure that questions are deleted by question_id'''
-        resp = self.client().delete("/questions/55")
+        resp = self.client().delete("/questions/57")
         data = json.loads(resp.data)
 
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['deleted'])
-        self.assertEqual(data['deleted'], "question_id = 55")
+        self.assertEqual(data['deleted'], "question_id = 57")
         self.assertTrue(data['total_questions'])
 
     def test_play_quiz(self):
