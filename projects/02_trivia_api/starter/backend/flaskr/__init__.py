@@ -131,6 +131,7 @@ def create_app(test_config=None):
       })
     
     except error:
+      print(error)
       abort(422)
 
 
@@ -196,9 +197,19 @@ def create_app(test_config=None):
     try:
       error = False
 
-      #Define the new question object and add it to the DB using the insert method
+      #Define the new question object and add it to the DB if all fields have valid values
       new_question = Question(question = question, answer = answer, category = category, difficulty = difficulty)
-      new_question.insert()
+
+      if new_question.question == "" or \
+        new_question.answer == "" or \
+          new_question.category == "" or \
+            new_question.difficulty == "":
+            return jsonify({
+              'success': False,
+              'message': 'Input data has either not been provided or is incomplete'
+            }), 400
+      else:
+        new_question.insert()
 
       #Let's know how many questions are now in the DB
       questions = Question.query.all()
