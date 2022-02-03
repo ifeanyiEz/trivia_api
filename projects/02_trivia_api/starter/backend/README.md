@@ -90,14 +90,50 @@ DELETE ...
 GET '/api/v1.0/categories'
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
-- Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
-{'1' : "Science",
-'2' : "Art",
-'3' : "Geography",
-'4' : "History",
-'5' : "Entertainment",
-'6' : "Sports"}
+- Returns: An object with two keys: 
+    success, with a value of "True", to show the status of the response; and
+    categories, that contains a object of id: category_string key:value pairs. 
+    {
+        '1' : "Science",
+        '2' : "Art",
+        '3' : "Geography",
+        '4' : "History",
+        '5' : "Entertainment",
+        '6' : "Sports"
+    }
 
+
+GET '/api/v1.0/questions?page=${integer}'
+- Fetches a dictionary of questions in paginated format, the total nmuber of questions, all categories and the response status.
+- Request Arguments: page of type: integer
+- Returns: An object with questions organized in pages of 10 questions maximum, total questions in 
+  the DB, all the categories as well as response status.
+    {
+        "success": True,
+        "questions": [
+            {
+                "id": 29, 
+                "question": "What is the best online learning platform in the world?",
+                "answer": "Udacity", 
+                "difficulty": 5,
+                "category": 4 
+            },
+
+        ],
+        "total_questions": 32,
+        "categories": {
+            '1' : "Science",
+            '2' : "Art",
+            '3' : "Geography",
+            '4' : "History",
+            '5' : "Entertainment",
+            '6' : "Sports"
+        }
+    }
+
+
+GET '/api/v1.0/categories/${id}/questions'
+- 
 ```
 
 
