@@ -18,6 +18,7 @@ from models import setup_db, Question, Category
 # https://realpython.com/list-comprehension-python/
 # https://tedboy.github.io/flask/generated/generated/flask.Request.get_json.html
 # https://www.digitalocean.com/community/tutorials/processing-incoming-request-data-in-flask
+# https://betterprogramming.pub/simple-flask-pagination-example-4190b12c2e2e
 
 
 QUESTIONS_PER_PAGE = 10
@@ -276,7 +277,7 @@ def create_app(test_config=None):
     try:
 
       #Filter out questions by category_id, order them by question_id and present only 10 questions, maximum, per page
-      category_questions = Question.query.filter_by(category = category_id).order_by(Question.id).paginate(page=page, per_page=QUESTIONS_PER_PAGE)
+      category_questions = Question.query.filter_by(category = category_id).order_by(Question.id).paginate(page = page, per_page = QUESTIONS_PER_PAGE)
 
       current_category = Category.query.filter_by(id = category_id).one_or_none()
 
