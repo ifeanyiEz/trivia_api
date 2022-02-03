@@ -44,7 +44,7 @@ class TriviaTestCase(unittest.TestCase):
         pass
 
     """
-    TODO
+    DONE
     Write at least one test for each test for successful operation and for expected errors.
     """
 
@@ -53,7 +53,7 @@ class TriviaTestCase(unittest.TestCase):
     #____________________Add Complete Question_______________#
 
     def test_add_complete_question(self):
-        '''Testing to see if questions are added as expected'''
+        '''Checking to see if questions are added as expected'''
         resp = self.client().post("/questions", json = self.new_question)
         data = json.loads(resp.data)
 
@@ -65,7 +65,7 @@ class TriviaTestCase(unittest.TestCase):
     #_________________Add Incomplete Question________________#
 
     def test_add_incomplete_question(self):
-        '''Testing to see if incomplete questions are rejected as expected'''
+        '''Checking to see if incomplete questions are rejected as expected'''
         resp = self.client().post("/questions", json=self.new_question1)
         data = json.loads(resp.data)
 
@@ -77,7 +77,7 @@ class TriviaTestCase(unittest.TestCase):
     #_________________List Questions________________#
 
     def test_list_questions(self):
-        '''Testing to see if questions are listed as expected'''
+        '''Checking to see if questions are listed as expected'''
         resp = self.client().get("/questions")
         data = json.loads(resp.data)
 
@@ -91,7 +91,7 @@ class TriviaTestCase(unittest.TestCase):
     #____________________List Categories_________________#
 
     def test_list_categories(self):
-        '''Testing to ensure that quiz categories are listed as expected'''
+        '''Checking to ensure that quiz categories are listed as expected'''
         resp = self.client().get("/categories")
         data = json.loads(resp.data)
 
@@ -119,7 +119,7 @@ class TriviaTestCase(unittest.TestCase):
     #_______________Delete Question By ID________________#
 
     def test_delete_question_by_id(self):
-        '''Testing to ensure that questions are deleted by question_id'''
+        '''Checking to ensure that questions are deleted by question_id'''
         resp = self.client().delete("/questions/66")
         data = json.loads(resp.data)
 
@@ -133,7 +133,7 @@ class TriviaTestCase(unittest.TestCase):
     #_______________Play Quiz_____________________#
 
     def test_play_quiz(self):
-        '''Testing to ensure that the quiz plays as expected'''
+        '''Checking to ensure that the quiz plays as expected'''
         resp = self.client().post("/quizzes", json = {
             'previous_questions': [13], 'quiz_category': {'type': 'Geography', 'id': '3'}
         })
