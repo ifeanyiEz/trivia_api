@@ -70,24 +70,18 @@ def create_app(test_config=None):
   @app.route('/categories', methods=['GET'])
   def list_categories():
 
-    try:
-      error = False
+    #Get all the quiz categories from the DB and format them using the format() method
+    quiz_categories = Category.query.order_by(Category.id).all()
+    formatted_categories = [category.format() for category in quiz_categories]
 
-      #Get all the quiz categories from the DB and format them using the format() method
-      quiz_categories = Category.query.order_by(Category.id).all()
-      formatted_categories = [category.format() for category in quiz_categories]
+    #If there are no categories, show a not-found (404) error
+    if len(formatted_categories) == 0:
+      abort(404)
 
-      #If there are no categories, show a not-found (404) error
-      if len(formatted_categories) == 0:
-        abort(404)
-
-      return jsonify({
-        'success': True,
-        'categories': {category.id: category.type for category in quiz_categories}
-      })
-    
-    except error:
-      abort(422)
+    return jsonify({
+      'success': True,
+      'categories': {category.id: category.type for category in quiz_categories}
+    })
 
 
 
@@ -111,28 +105,21 @@ def create_app(test_config=None):
     #Define the page parameter
     page = request.args.get('page', 1, type=int)
 
-    try:
-      error = False
+    #Get all questions from the DB, order them by question_id and present only 10 questions, maximum, per page
+    questions = Question.query.order_by(Question.id).paginate(page = page, per_page = QUESTIONS_PER_PAGE)
 
-      #Get all questions from the DB, order them by question_id and present only 10 questions, maximum, per page
-      questions = Question.query.order_by(Question.id).paginate(page = page, per_page = QUESTIONS_PER_PAGE)
+    quiz_categories = Category.query.order_by(Category.id).all()
 
-      quiz_categories = Category.query.order_by(Category.id).all()
+    #If there are no questions in the DB, show a not-found (404) error
+    if len(questions.items) == 0:
+      abort(404)
 
-      #If there are no questions in the DB, show a not-found (404) error
-      if len(questions.items) == 0:
-        abort(404)
-
-      return jsonify({
-        'success': True,
-        'questions': [question.format() for question in questions.items],
-        'total_questions': questions.total,
-        'categories': {category.id: category.type for category in quiz_categories}
-      })
-    
-    except error:
-      print(error)
-      abort(422)
+    return jsonify({
+      'success': True,
+      'questions': [question.format() for question in questions.items],
+      'total_questions': questions.total,
+      'categories': {category.id: category.type for category in quiz_categories}
+    })
 
 
 
@@ -149,7 +136,6 @@ def create_app(test_config=None):
   def delete_question(question_id):
 
     try:
-      error = False
 
       #Get the question for deletion from the DB using the specified question_id
       question = Question.query.filter_by(id = question_id).one_or_none()
@@ -167,7 +153,7 @@ def create_app(test_config=None):
         'deleted': 'question_id = {}'.format(question.id),
         'total_questions': len(questions)
       })
-    except error:
+    except:
       abort(422)
 
 
@@ -206,7 +192,7 @@ def create_app(test_config=None):
             new_question.difficulty == "":
             return jsonify({
               'success': False,
-              'message': 'Input data has either not been provided or is incomplete'
+              'message': 'The server could not understand the request due to invalid syntax'
             }), 400
       else:
         new_question.insert()
@@ -288,7 +274,6 @@ def create_app(test_config=None):
     page = request.args.get('page', 1, type=int)
 
     try:
-      error = False
 
       #Filter out questions by category_id, order them by question_id and present only 10 questions, maximum, per page
       category_questions = Question.query.filter_by(category = category_id).order_by(Question.id).paginate(page=page, per_page=QUESTIONS_PER_PAGE)
@@ -306,7 +291,7 @@ def create_app(test_config=None):
         'current_category': current_category.type
       })
       
-    except error:
+    except:
       abort(422)
 
   '''
