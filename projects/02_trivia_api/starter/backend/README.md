@@ -104,8 +104,8 @@ GET '/api/v1.0/categories'
 
 
 GET '/api/v1.0/questions?page=${integer}'
-- Fetches a dictionary of questions in paginated format, the total nmuber of questions, all categories and the response status.
-- Request Arguments: page of type: integer
+- Fetches a dictionary of questions in paginated format, the total nmuber of questions, all categories and also indicates the response status.
+- Request Arguments: Page of type: integer
 - Returns: An object with questions organized in pages of 10 questions maximum, total questions in 
   the DB, all the categories as well as response status.
     {
@@ -133,7 +133,10 @@ GET '/api/v1.0/questions?page=${integer}'
 
 
 GET '/api/v1.0/categories/${id}/questions'
-- 
+- Fetches a dictionary of questions for a given category in paginated format, the given category and the total number of questions in that category. The response status is also included.
+- Request Arguments: Page: type, integer
+- Returns: 
+
 ```
 
 
