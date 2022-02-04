@@ -58,9 +58,9 @@ class QuestionView extends Component {
     return pageNumbers;
   }
 
-  getByCategory= (id) => {
+  getByCategory = (id) => {
     $.ajax({
-      url: `/categories/${id}/questions`, //DONE: update request URL
+      url: `/categories/${id}/questions?page=${this.state.page}`, //DONE: update request URL
       type: "GET",
       success: (result) => {
         this.setState({

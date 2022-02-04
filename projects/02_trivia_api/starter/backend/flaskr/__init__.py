@@ -250,7 +250,7 @@ def create_app(test_config=None):
       return jsonify({
         'success': True,
         'questions': [question.format() for question in search_results.items],
-        'total_questions': len(search_results.items)
+        'total_questions': search_results.total
       })
     
     except error:
@@ -288,7 +288,7 @@ def create_app(test_config=None):
       return jsonify({
         'success': True,
         'questions': [question.format() for question in category_questions.items],
-        'total_questions': len(category_questions.items),
+        'total_questions': category_questions.total,
         'current_category': current_category.type
       })
       
