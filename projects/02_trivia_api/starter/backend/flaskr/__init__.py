@@ -106,10 +106,10 @@ def create_app(test_config=None):
     #Define the page parameter
     page = request.args.get('page', 1, type=int)
 
-    #Get all questions from the DB, order them by question_id and present only 10 questions, maximum, per page
-    questions = Question.query.order_by(Question.id).paginate(page = page, per_page = QUESTIONS_PER_PAGE)
-
     quiz_categories = Category.query.order_by(Category.id).all()
+
+    #Get all questions from the DB, order them by question_id and present only 10 questions maximum, per page
+    questions = Question.query.order_by(Question.id).paginate(page = page, per_page = QUESTIONS_PER_PAGE)
 
     #If there are no questions in the DB, show a not-found (404) error
     if len(questions.items) == 0:
@@ -259,7 +259,7 @@ def create_app(test_config=None):
 
 
 
-  #________________List Question by Category_____________________#
+  #________________List Questions by Category_____________________#
   '''
   @DONE: 
   Create a GET endpoint to get questions based on category. 
