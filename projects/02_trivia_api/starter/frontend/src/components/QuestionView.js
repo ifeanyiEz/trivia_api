@@ -40,9 +40,18 @@ class QuestionView extends Component {
     })
   }
 
+  getCategoryId = (category) => Object.keys(this.state.categories).find(key => this.state.categories[key] === category);
+
   selectPage(num) {
-    this.setState({page: num}, () => this.getQuestions());
+    this.setState({ page: num },
+      () => !!this.state.currentCategory
+        ? this.getByCategory(parseInt(this.getCategoryId(this.state.currentCategory)))
+        : this.getQuestions())
   }
+  
+  /*selectPage(num) {
+    this.setState({page: num}, () => this.getQuestions());
+  }*/
 
   createPagination(){
     let pageNumbers = [];
