@@ -93,6 +93,7 @@ GET '/api/v1.0/categories'
 - Returns: An object with two keys: 
     success, with a value of "True", to show the status of the response; and
     categories, that contains a object of id: category_string key:value pairs. 
+    Example:
     {
         '1' : "Science",
         '2' : "Art",
@@ -108,8 +109,9 @@ GET '/api/v1.0/questions?page=${integer}'
 - Request Arguments: Page of type: integer
 - Returns: An object with questions organized in pages of 10 questions maximum, total questions in 
   the DB, all the categories as well as response status.
+  Example:
     {
-        "success": True,
+        "success": true,
         "questions": [
             {
                 "id": 29, 
@@ -120,7 +122,7 @@ GET '/api/v1.0/questions?page=${integer}'
             },
 
         ],
-        "total_questions": 32,
+        "total_questions": 33,
         "categories": {
             '1' : "Science",
             '2' : "Art",
@@ -135,8 +137,104 @@ GET '/api/v1.0/questions?page=${integer}'
 GET '/api/v1.0/categories/${id}/questions'
 - Fetches a dictionary of questions for a given category in paginated format, the given category and the total number of questions in that category. The response status is also included.
 - Request Arguments: Page: type, integer
-- Returns: 
+- Returns: An object with questions organized in pages of 10 questions maximum, the total 
+  number of questions in the given category, and the given category. Including the response status. 
+  Example:
+  {
+      "success": true,
+      "questions": [
+          {
+            "id": 29, 
+            "question": "What is the best online learning platform in the world?",
+            "answer": "Udacity", 
+            "difficulty": 5,
+            "category": 4
+          },
 
+      ],
+      "total_questions": 12,
+      "current_category": "History"
+  }
+
+
+DELETE '/api/v1.0/questions/${id}'
+- Deletes a given question using the id of the question
+- Request Arguments: question id - type, integer
+- Returns: An object containing the response status, the deleted question id, and the total number of questions remaining in the database. 
+  Example:
+  {
+      "success": true,
+      "deleted": 'question_id = 29',
+      "total_questions": 32
+  }
+
+
+POST '/api/v1.0/questions'
+- This sends a post request which adds a new question to the database.
+- Request Body: An object containing the actual question, the accompanying answer, the question's category id, and the associated difficulty level. 
+  Example:
+  {
+      "question": "What is the best online learning platform in the world?",
+      "answer": "Udacity",
+      "category": 4,
+      "difficulty": 5
+  }
+- Returns: An object containing the response status, the id of the newly added question, and the new total number of questions in the database.
+  Example:
+  {
+      "success":  true,
+      "created": 'question_id = 29',
+      "total_questions": 33
+  }
+
+
+POST '/api/v1.0/questions/search'
+- This sends a post request to search the database for a question or questions that match the search criterion. In this case, search criterion is a search term.
+- Request Body: An object containing the word or words the user is looking for, the search term. 
+  Example:
+  {
+      "searchTerm": 'palace'
+  }
+- Returns: An object containing the response status, a list of formated questions which contain the search term and are organized into pages of 10 questions maximum, then the total number of questions that match the search criterion.
+  Example:
+   {
+      "success": true,
+      "questions": [
+            {
+                "answer": "The Palace of Versailles", 
+                "category": 3, 
+                "difficulty": 3, 
+                "id": 14, 
+                "question": "In which royal palace would you find the Hall of Mirrors?"
+            },
+
+        ],
+      "total_questions": 1
+  }
+
+POST '/api/v1.0/quizzes'
+- This sends a post request to the database so as to fetch the questions one at a time in order to play the quiz.
+- Request Body: This is an object containing a list of the ids of previously attempted questions, and the chosen category which is itself an object containing the category type and id.
+  Example:
+  {
+    "previous_questions": [13], 
+    "quiz_category": {
+        "type": 'Geography', 
+        "id": '3'
+        }
+  }
+- Returns: An object which contains a single formated random question from the chosen category and the response status. 
+  Example:
+  {
+    "success": true
+    "question": {
+        "answer": "Nunavut", 
+        "category": 3, 
+        "difficulty": 4, 
+        "id": 37, 
+        "question": "What is the largest province in Canada by land mass"
+        }
+  }
 ```
 
 
