@@ -254,7 +254,6 @@ def create_app(test_config=None):
       })
     
     except error:
-      print(error)
       abort(422)
 
 
@@ -295,6 +294,8 @@ def create_app(test_config=None):
     except:
       abort(422)
 
+
+  #___________________Get Questions To Play Quiz______________________#
   '''
   @DONE: 
   Create a POST endpoint to get questions to play the quiz. 
@@ -325,7 +326,7 @@ def create_app(test_config=None):
       else:
         questions = Question.query.filter(Question.category == quiz_category).all()
 
-      #Put all the unattempted questions in a list: questions_set
+      #Put all the unattempted questions in a list called questions_set
       questions_set = [question.format() for question in questions if question.id not in prev_questions]
 
       #As long as there are still questions in the question set continue selecting random questions
