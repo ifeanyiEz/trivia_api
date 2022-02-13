@@ -18,6 +18,8 @@ from models import setup_db, Question, Category
 # https://realpython.com/list-comprehension-python/
 # https://tedboy.github.io/flask/generated/generated/flask.Request.get_json.html
 # https://www.digitalocean.com/community/tutorials/processing-incoming-request-data-in-flask
+# https://linuxize.com/post/curl-command-examples/?linuxize-blog%5Bquery%5D=cu
+# https://www.educative.io/edpresso/how-to-send-a-delete-request-with-curl
 # https://betterprogramming.pub/simple-flask-pagination-example-4190b12c2e2e
 
 
