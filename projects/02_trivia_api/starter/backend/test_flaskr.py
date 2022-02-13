@@ -120,13 +120,13 @@ class TriviaTestCase(unittest.TestCase):
 
     def test_delete_question_by_id(self):
         '''Checking to ensure that questions are deleted by question_id'''
-        resp = self.client().delete("/questions/66")
+        resp = self.client().delete("/questions/67")
         data = json.loads(resp.data)
 
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['deleted'])
-        self.assertEqual(data['deleted'], "question_id = 66")
+        self.assertEqual(data['deleted'], "question_id = 67")
         self.assertTrue(data['total_questions'])
 
 
