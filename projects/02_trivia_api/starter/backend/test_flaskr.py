@@ -6,6 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flaskr import create_app
 from models import setup_db, Question, Category
 
+from settings import *
+
 
 class TriviaTestCase(unittest.TestCase):
     """This class represents the trivia test case"""
@@ -15,7 +17,7 @@ class TriviaTestCase(unittest.TestCase):
         self.app = create_app()
         self.client = self.app.test_client
         self.database_name = "trivia_test"
-        self.database_path = "postgresql://{}:{}@{}/{}".format("ezugworie", "E2u8w0r1e", "localhost:5432", self.database_name)
+        self.database_path = "postgresql://{}:{}@{}/{}".format(DB_USER, DB_PASSWORD, "localhost:5432", self.database_name)
         setup_db(self.app, self.database_path)
 
         self.new_question = {
@@ -120,13 +122,13 @@ class TriviaTestCase(unittest.TestCase):
 
     def test_delete_question_by_id(self):
         '''Checking to ensure that questions are deleted by question_id'''
-        resp = self.client().delete("/questions/67")
+        resp = self.client().delete("/questions/25")
         data = json.loads(resp.data)
 
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['deleted'])
-        self.assertEqual(data['deleted'], "question_id = 67")
+        self.assertEqual(data['deleted'], "question_id = 25")
         self.assertTrue(data['total_questions'])
 
 
